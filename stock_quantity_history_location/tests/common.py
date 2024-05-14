@@ -1,4 +1,4 @@
-# Copyright 2021 Tecnativa - Víctor Martínez
+# Copyright 2021-2024 Tecnativa - Víctor Martínez
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo.tests.common import TransactionCase
@@ -22,7 +22,8 @@ class TestCommon(TransactionCase):
         )
         move._action_confirm()
         move._action_assign()
-        move_line = move.move_line_ids[0]
-        move_line.qty_done = qty
+        for move_line in move.move_line_ids:
+            move_line.quantity = qty
+            move_line.picked = True
         move._action_done()
         return move
